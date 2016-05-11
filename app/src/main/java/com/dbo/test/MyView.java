@@ -131,6 +131,31 @@ public class MyView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
+        // 绘制浅色圆环
+        // 1.圆心（x,y）坐标值
+        float centerX = (getWidth()-getPaddingLeft()-getPaddingRight())/2.0f;
+        float centerY = (getHeight() - getPaddingTop() - getPaddingBottom())/2.0f;
+        // 2.圆环半径
+        float radius;
+        if (getWidth() >= getHeight()) {
+            radius = (centerY - arcWidth / 2);
+        }else{
+            radius = (centerX - arcWidth / 2);
+        }
+        canvas.drawCircle(centerX,centerY,radius,circlePaint);
+
+        oval.left = centerX - radius;
+        oval.right = centerX + radius;
+        oval.top = centerY - radius;
+        oval.bottom = centerY+radius;
+
+        canvas.drawArc(oval, 0, (float)360 * currentProgress / (float)maxProgress, false, arcPaint);
+
+        currentDrawText = String.format("%d", currentProgress * 100 /maxProgress);
+        currentDrawText = (currentDrawText)+"%";
+        float drawTextWidth = textPaint.measureText(currentDrawText);
+
+        canvas.drawText(currentDrawText,centerX-drawTextWidth/2.0f,centerY-((textPaint.descent() + textPaint.ascent()) / 2.0f),textPaint);
 
 
 
